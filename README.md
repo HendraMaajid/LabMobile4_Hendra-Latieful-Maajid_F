@@ -14,5 +14,5 @@ Shift Baru: F
 ![Screenshot](list_produk.png)
 ![Screenshot](tambah.png)
 ![Screenshot](edit.png)
-![Screenshot](hapus.png)
-![Screenshot](lougout.png)
+![Screenshot](delete.png)
+![Screenshot](logout.png)
