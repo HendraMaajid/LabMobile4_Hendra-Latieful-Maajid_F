@@ -1,8 +1,11 @@
 # tokokita
 
 Nama : Hendra Latieful Maajid
+
 NIM : H1D022018
+
 Shift KRS: D
+
 Shift Baru: F
 
 ## Screenshot
