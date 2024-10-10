@@ -10,12 +10,9 @@ Shift Baru: F
 
 Tugas pertemuan 4 dan 5 (Tugas pertemuan 5 ada dibawah tugas pertemuan 4)
 ## Screenshot TUGAS PERTEMUAN 4
-<img src="login.png" alt="Login Screenshot" width="200"/>
-<img src="registrasi.png" alt="Registrasi Screenshot" width="200"/>
-<img src="list_produk.png" alt="List Produk Screenshot" width="200"/>
-<img src="tambah.png" alt="Tambah Produk Screenshot" width="200"/>
-<img src="edit.png" alt="Edit Produk Screenshot" width="200"/>
-<img src="delete.png" alt="Delete Produk Screenshot" width="200"/>
+<img src="login.png" alt="Login Screenshot" width="200"/><img src="registrasi.png" alt="Registrasi Screenshot" width="200"/>
+<img src="list_produk.png" alt="List Produk Screenshot" width="200"/><img src="tambah.png" alt="Tambah Produk Screenshot" width="200"/>
+<img src="edit.png" alt="Edit Produk Screenshot" width="200"/><img src="delete.png" alt="Delete Produk Screenshot" width="200"/>
 <img src="logout.png" alt="Logout Screenshot" width="200"/>
 
 
