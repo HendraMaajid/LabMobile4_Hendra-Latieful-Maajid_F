@@ -291,8 +291,11 @@ class LoginBloc {
 <br>
 <img src="tampilproduk.png" width="300"/>
 
+# C. Penjelasan Proses Tambah Data
 
-# C. Penjelasan Proses Tampil Data
+
+
+# D. Penjelasan Proses Tampil Data
 
 ## 1. Model Produk
 Model `Produk` merepresentasikan struktur data produk:
@@ -331,18 +334,90 @@ class ProdukBloc {
     }
     return produks;
   }
-
-  // ... (kode lainnya)
 }
 ```
 
-## 4. Proses Menampilkan Data
+getProduks() ini mengambil daftar produk dari API, mengonversi respons JSON menjadi list objek Produk.
+## 3. Proses Menampilkan Data
 1. Data produk diambil menggunakan `ProdukBloc.getProduks()`.
-2. Setiap item produk dalam daftar kemungkinan ditampilkan sebagai widget yang dapat diklik (misalnya, `ListTile`).
+2. Setiap item produk dalam daftar ditampilkan sebagai widget yang dapat diklik (`ListTile`).
 3. Ketika item produk diklik, `ProdukDetail` widget dibuat dengan objek `Produk` yang sesuai.
 4. `ProdukDetail` kemudian menampilkan informasi produk menggunakan data dari objek `Produk` yang diteruskan.
 
 <img src="tampilproduk.png" width="300"/>
+
+## 4. Fitur Edit dan Hapus
+
+<img src="edit1.png" width="300"/>
+<img src="edit2.png" width="300"/>
+
+### Edit Produk
+```dart
+OutlinedButton(
+  child: const Text("EDIT"),
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProdukForm(
+          produk: widget.produk!,
+        ),
+      ),
+    );
+  },
+),
+```
+
+Penjelasan:
+- Tombol "EDIT" membuka `ProdukForm` untuk mengedit produk yang ada.
+- Data produk yang ada diteruskan ke `ProdukForm` sebagai parameter.
+- `ProdukForm` kemudian menampilkan data produk yang ada untuk diedit.
+- Setelah diedit, data produk dikirim kembali ke API untuk diperbarui.
+- Jika berhasil, user diarahkan kembali ke `ProdukPage`.
+
+### Hapus Produk
+
+<img src="hapus1.png" width="300"/><img src="hapus2.png" width="300"/>
+
+```dart
+void confirmHapus() {AlertDialog alertDialog = AlertDialog(
+  content: const Text("Yakin ingin menghapus data ini?"),
+  actions: [
+//tombol hapus
+    OutlinedButton(
+      child: const Text("Ya"),
+      onPressed: () {
+        ProdukBloc.deleteProduk(id: int.parse(widget.produk!.id!)).then(
+                (value) => {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const ProdukPage()))
+            }, onError: (error) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => const WarningDialog(
+                description: "Hapus gagal, silahkan coba lagi",
+              ));
+        });
+      },
+    ),
+//tombol batal
+    OutlinedButton(
+      child: const Text("Batal"),
+      onPressed: () => Navigator.pop(context),
+    )
+  ],
+);
+showDialog(builder: (context) => alertDialog, context: context);
+}
+```
+
+Penjelasan:
+- Tombol "DELETE" memunculkan dialog konfirmasi.
+- Jika dikonfirmasi, `ProdukBloc.deleteProduk()` dipanggil untuk menghapus produk.
+- Setelah berhasil dihapus, navigasi kembali ke `ProdukPage`.
+
+
+
 
 
 
