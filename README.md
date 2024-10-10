@@ -125,10 +125,9 @@ class RegistrasiBloc {
 
 1. Method `registrasi()` dipanggil dengan parameter nama, email, dan password.
 2. URL API untuk registrasi diambil dari `ApiUrl.registrasi`.
-3. Data registrasi disiapkan dalam bentuk map.
-4. Permintaan POST dikirim ke API menggunakan `Api().post()`.
-5. Respons dari API di-decode dari JSON.
-6. Objek `Registrasi` dibuat dari data JSON yang diterima.
+3. Permintaan POST dikirim ke API menggunakan `Api().post()`.
+4. Respons dari API di-decode dari JSON.
+5. Objek `Registrasi` dibuat dari data JSON yang diterima.
 
 
 ## 3. Model Registrasi (Registrasi)
@@ -255,7 +254,7 @@ class Login {
 
 
 ## 3. Login Bloc
-
+Penjelasannya sama seperti registrasi hanya ini untuk yang login
 ```dart
 import 'dart:convert';
 import 'package:tokokita/helpers/api.dart';
@@ -294,5 +293,57 @@ class LoginBloc {
 
 
 # C. Penjelasan Proses Tampil Data
+
+## 1. Model Produk
+Model `Produk` merepresentasikan struktur data produk:
+```dart
+class Produk {
+  String? id;
+  String? kodeProduk;
+  String? namaProduk;
+  var hargaProduk;
+
+  Produk({this.id, this.kodeProduk, this.namaProduk, this.hargaProduk});
+
+  factory Produk.fromJson(Map<String, dynamic> obj) {
+    return Produk(
+        id: obj['id'],
+        kodeProduk: obj['kode_produk'],
+        namaProduk: obj['nama_produk'],
+        hargaProduk: obj['harga']);
+  }
+}
+```
+
+
+## 2. ProdukBloc
+Untuk menampilkan data produk kita hanya menggunakan fungsi yang getProduks() saja pada ProdukBloc
+```dart
+class ProdukBloc {
+  static Future<List<Produk>> getProduks() async {
+    String apiUrl = ApiUrl.listProduk;
+    var response = await Api().get(apiUrl);
+    var jsonObj = json.decode(response.body);
+    List<dynamic> listProduk = (jsonObj as Map<String, dynamic>)['data'];
+    List<Produk> produks = [];
+    for (int i = 0; i < listProduk.length; i++) {
+      produks.add(Produk.fromJson(listProduk[i]));
+    }
+    return produks;
+  }
+
+  // ... (kode lainnya)
+}
+```
+
+## 4. Proses Menampilkan Data
+1. Data produk diambil menggunakan `ProdukBloc.getProduks()`.
+2. Setiap item produk dalam daftar kemungkinan ditampilkan sebagai widget yang dapat diklik (misalnya, `ListTile`).
+3. Ketika item produk diklik, `ProdukDetail` widget dibuat dengan objek `Produk` yang sesuai.
+4. `ProdukDetail` kemudian menampilkan informasi produk menggunakan data dari objek `Produk` yang diteruskan.
+
+<img src="tampilproduk.png" width="300"/>
+
+
 
 
