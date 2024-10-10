@@ -65,36 +65,8 @@ Kelas `UserInfo` dalam file ini menyediakan metode untuk mengelola informasi ter
 
 # A. Penjelasan Proses Registrasi 
 
-## 1. Halaman Registrasi (RegistrasiPage)
-
-Halaman ini menampilkan form registrasi dengan field untuk nama, email, password, dan konfirmasi password.
-
-Contoh validasi field:
-
-```dart
-Widget _emailTextField() {
-  return TextFormField(
-    decoration: const InputDecoration(labelText: "Email"),
-    keyboardType: TextInputType.emailAddress,
-    controller: _emailTextboxController,
-    validator: (value) {
-      if (value!.isEmpty) {
-        return 'Email harus diisi';
-      }
-      Pattern pattern =
-          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0 -9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zAZ]{2,}))$';
-      RegExp regex = RegExp(pattern.toString());
-      if (!regex.hasMatch(value)) {
-        return "Email tidak valid";
-      }
-      return null;
-    },
-  );
-}
-```
-
-## 2. Proses Submit
-
+## 1. Proses Submit
+<img src="registrasi1.png.png" width="300"/>
 Ketika tombol "Registrasi" ditekan, method `_submit()` dipanggil:
 
 ```dart
@@ -133,14 +105,8 @@ void _submit() {
 }
 ```
 
-Dalam method `_submit()`:
-1. Form disimpan dan state `_isLoading` diset menjadi true.
-2. `RegistrasiBloc.registrasi()` dipanggil dengan parameter nama, email, dan password.
-3. Jika registrasi berhasil, dialog sukses ditampilkan.
-4. Jika registrasi gagal, dialog peringatan ditampilkan.
-5. Setelah proses selesai, `_isLoading` diset kembali menjadi false.
 
-## 3. Blok Registrasi (RegistrasiBloc)
+## 2. Blok Registrasi (RegistrasiBloc)
 
 `RegistrasiBloc` menangani logika bisnis untuk proses registrasi:
 
@@ -164,7 +130,7 @@ class RegistrasiBloc {
 6. Objek `Registrasi` dibuat dari data JSON yang diterima.
 
 
-## 4. Model Registrasi (Registrasi)
+## 3. Model Registrasi (Registrasi)
 
 Model `Registrasi` merepresentasikan struktur data respons dari API:
 
@@ -185,7 +151,7 @@ class Registrasi {
 }
 ```
 
-## 5. Alur Proses Registrasi
+## 4. Alur Proses Registrasi
 
 1. User mengisi form registrasi di `RegistrasiPage`.
 2. Ketika tombol registrasi ditekan, validasi form dilakukan.
@@ -197,81 +163,15 @@ class Registrasi {
 
 
 ## Penanganan Error
+- Jika terjadi error, dialog peringatan akan ditampilkan.
+- jika tidak maka akan muncul dialog sukses.
+  <img src="registrasi2.png" width="300"/>
 
-- Jika terjadi error saat komunikasi dengan API, dialog peringatan akan ditampilkan.
-- Namun, detail error tidak ditampilkan ke user. Pertimbangkan untuk menambahkan logging untuk memudahkan debugging.
-
-## Screenshots
 
 
 # B. Penjelasan Proses Login
 
-## 1. Halaman Login (LoginPage)
-
-Halaman ini menampilkan form login dengan field untuk email dan password.
-
-```dart
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
-  final _emailTextboxController = TextEditingController();
-  final _passwordTextboxController = TextEditingController();
-
-  // ... (kode build method)
-}
-```
-
-Penjelasan:
-- `LoginPage` adalah `StatefulWidget` karena perlu mengelola state seperti loading.
-- `_formKey` digunakan untuk validasi form.
-- `_isLoading` menandakan apakah proses login sedang berlangsung.
-- `_emailTextboxController` dan `_passwordTextboxController` digunakan untuk mengelola input user.
-
-## 2. Widget Form Login
-
-```dart
-Widget _emailTextField() {
-  return TextFormField(
-    decoration: const InputDecoration(labelText: "Email"),
-    keyboardType: TextInputType.emailAddress,
-    controller: _emailTextboxController,
-    validator: (value) {
-      if (value!.isEmpty) {
-        return 'Email harus diisi';
-      }
-      return null;
-    },
-  );
-}
-
-Widget _passwordTextField() {
-  return TextFormField(
-    decoration: const InputDecoration(labelText: "Password"),
-    keyboardType: TextInputType.text,
-    obscureText: true,
-    controller: _passwordTextboxController,
-    validator: (value) {
-      if (value!.isEmpty) {
-        return "Password harus diisi";
-      }
-      return null;
-    },
-  );
-}
-```
-
-Penjelasan:
-- Kedua widget ini membuat field input untuk email dan password.
-- Masing-masing memiliki validasi sederhana untuk memastikan field tidak kosong.
-- `obscureText: true` pada password field menyembunyikan input.
-
-## 3. Proses Login
+## 1. Proses Login
 
 ```dart
 Widget _buttonLogin() {
@@ -330,7 +230,7 @@ Penjelasan:
     4. Jika gagal, menampilkan dialog peringatan.
     5. Setelah selesai, mengatur `_isLoading` kembali menjadi false.
 
-## 4. Model Login
+## 2. Model Login
 
 ```dart
 class Login {
@@ -358,9 +258,9 @@ class Login {
 Penjelasan:
 - Model `Login` merepresentasikan respons dari API login.
 - `Login.fromJson()` mengkonversi data JSON menjadi objek `Login`.
-- `int.tryParse()` digunakan untuk mengonversi ID user ke tipe int, menghindari error jika format tidak sesuai.
+- `int.tryParse()` digunakan untuk mengonversi ID user ke tipe int.
 
-## 5. Login Bloc
+## 3. Login Bloc
 
 ```dart
 import 'dart:convert';
@@ -384,7 +284,7 @@ Penjelasan:
 - `login()` method mengirim request POST ke API dengan email dan password.
 - Respons API di-decode dari JSON dan dikonversi menjadi objek `Login`.
 
-## Alur Proses Login
+## 4. Alur Proses Login
 
 1. User mengisi form login di `LoginPage`.
 2. Saat tombol login ditekan, validasi form dilakukan.
@@ -394,8 +294,6 @@ Penjelasan:
 6. Respons dikonversi menjadi objek `Login`.
 7. Jika login berhasil, token dan userID disimpan, dan user diarahkan ke `ProdukPage`.
 8. Jika gagal, dialog peringatan ditampilkan.
-
-## Screenshots
 
 
 # C. Penjelasan Proses Tampil Data
