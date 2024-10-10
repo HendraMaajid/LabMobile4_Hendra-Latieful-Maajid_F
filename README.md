@@ -286,7 +286,7 @@ class LoginBloc {
 ## Penanganan Error
 - Jika terjadi error, dialog peringatan akan ditampilkan.
 <br>
-<img src="gagal_login.png" width="300"/>
+<img src="gagal_login1.png" width="300"/>
 - jika tidak maka akan masuk ke beranda.
 <br>
 <img src="tampilproduk.png" width="300"/>
