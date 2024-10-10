@@ -175,6 +175,9 @@ class Registrasi {
 
 ## 1. Proses Login
 
+<img src="login1.png" width="300"/>
+`_buttonLogin()` memvalidasi form sebelum memanggil `_submit()`.
+
 ```dart
 Widget _buttonLogin() {
   return ElevatedButton(
@@ -223,14 +226,7 @@ void _submit() {
 }
 ```
 
-Penjelasan:
-- `_buttonLogin()` memvalidasi form sebelum memanggil `_submit()`.
-- `_submit()` melakukan proses login:
-    1. Mengatur `_isLoading` menjadi true.
-    2. Memanggil `LoginBloc.login()` dengan email dan password.
-    3. Jika berhasil, menyimpan token dan userID, lalu navigasi ke `ProdukPage`.
-    4. Jika gagal, menampilkan dialog peringatan.
-    5. Setelah selesai, mengatur `_isLoading` kembali menjadi false.
+
 
 ## 2. Model Login
 
@@ -257,10 +253,6 @@ class Login {
 }
 ```
 
-Penjelasan:
-- Model `Login` merepresentasikan respons dari API login.
-- `Login.fromJson()` mengkonversi data JSON menjadi objek `Login`.
-- `int.tryParse()` digunakan untuk mengonversi ID user ke tipe int.
 
 ## 3. Login Bloc
 
@@ -281,11 +273,6 @@ class LoginBloc {
 }
 ```
 
-Penjelasan:
-- `LoginBloc` menangani logika bisnis untuk proses login.
-- `login()` method mengirim request POST ke API dengan email dan password.
-- Respons API di-decode dari JSON dan dikonversi menjadi objek `Login`.
-
 ## 4. Alur Proses Login
 
 1. User mengisi form login di `LoginPage`.
@@ -296,6 +283,14 @@ Penjelasan:
 6. Respons dikonversi menjadi objek `Login`.
 7. Jika login berhasil, token dan userID disimpan, dan user diarahkan ke `ProdukPage`.
 8. Jika gagal, dialog peringatan ditampilkan.
+
+## Penanganan Error
+- Jika terjadi error, dialog peringatan akan ditampilkan.
+<br>
+<img src="gagal_login.png" width="300"/>
+- jika tidak maka akan masuk ke beranda.
+<br>
+<img src="tampilproduk.png" width="300"/>
 
 
 # C. Penjelasan Proses Tampil Data
