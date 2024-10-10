@@ -353,6 +353,8 @@ addProduk() ini mengirim data produk ke API untuk ditambahkan ke database.
 
 # D. Penjelasan Proses Tampil Data
 
+<img src="tambahproduk2.png" width="300"/><img src="detail.png" width="300"/>
+
 ## 1. Model Produk
 Model `Produk` merepresentasikan struktur data produk:
 ```dart
@@ -400,7 +402,6 @@ getProduks() ini mengambil daftar produk dari API, mengonversi respons JSON menj
 3. Ketika item produk diklik, `ProdukDetail` widget dibuat dengan objek `Produk` yang sesuai.
 4. `ProdukDetail` kemudian menampilkan informasi produk menggunakan data dari objek `Produk` yang diteruskan.
 
-<img src="tambahproduk2.png" width="300"/><img src="detail.png" width="300"/>A4
 
 ## 4. Fitur Edit dan Hapus
 
