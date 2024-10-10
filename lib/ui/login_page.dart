@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) => WarningDialog(
-            description: "Login gagal: ${error.toString()}",
+            description: "Login gagal",
           )
       );
     }).whenComplete(() {
