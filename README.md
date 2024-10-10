@@ -293,6 +293,62 @@ class LoginBloc {
 
 # C. Penjelasan Proses Tambah Data
 
+<img src="tambahproduk1.png" width="300"/><img src="tambahproduk2.png" width="300"/>
+
+## 1. Model Produk
+Model `Produk` merepresentasikan struktur data produk:
+```dart
+class Produk {
+  String? id;
+  String? kodeProduk;
+  String? namaProduk;
+  var hargaProduk;
+
+  Produk({this.id, this.kodeProduk, this.namaProduk, this.hargaProduk});
+
+  factory Produk.fromJson(Map<String, dynamic> obj) {
+    return Produk(
+        id: obj['id'],
+        kodeProduk: obj['kode_produk'],
+        namaProduk: obj['nama_produk'],
+        hargaProduk: obj['harga']);
+  }
+}
+```
+
+## 2. ProdukBloc
+Untuk menambahkan data produk kita hanya menggunakan fungsi yang addProduk() saja pada ProdukBloc
+```dart
+class ProdukBloc {
+  static Future addProduk({Produk? produk}) async {
+    String apiUrl = ApiUrl.createProduk;
+    var body = {
+      "kode_produk": produk!.kodeProduk,
+      "nama_produk": produk.namaProduk,
+      "harga": produk.hargaProduk.toString()
+    };
+    var response = await Api().post(apiUrl, body);
+    var jsonObj = json.decode(response.body);
+    return jsonObj['status'];
+  }
+}
+```
+
+addProduk() ini mengirim data produk ke API untuk ditambahkan ke database.
+
+## 3. Proses Menambah Produk
+1. Pengguna membuka form tambah produk melalui `ProdukForm` widget.
+2. Pengguna mengisi data produk pada form yang terdiri dari:
+    - Kode Produk (`_kodeProdukTextField`)
+    - Nama Produk (`_namaProdukTextField`)
+    - Harga Produk (`_hargaProdukTextField`)
+3. Setelah mengisi form, pengguna menekan tombol "SIMPAN" (`_buttonSubmit`).
+4. Sistem melakukan validasi form menggunakan `_formKey.currentState!.validate()`.
+5. Jika form valid, sistem memanggil method `simpan()`.
+6. Di dalam `simpan()`, objek `Produk` baru dibuat dengan data dari form.
+7. Sistem memanggil `ProdukBloc.addProduk()` untuk mengirim data ke server.
+8. Jika penambahan berhasil, pengguna diarahkan ke halaman daftar produk (`ProdukPage`).
+9. Jika terjadi kesalahan, sistem menampilkan `WarningDialog` dengan pesan error.
 
 
 # D. Penjelasan Proses Tampil Data
@@ -348,8 +404,7 @@ getProduks() ini mengambil daftar produk dari API, mengonversi respons JSON menj
 
 ## 4. Fitur Edit dan Hapus
 
-<img src="edit1.png" width="300"/>
-<img src="edit2.png" width="300"/>
+<img src="edit1.png" width="300"/><img src="edit2.png" width="300"/>
 
 ### Edit Produk
 ```dart
@@ -366,6 +421,21 @@ OutlinedButton(
     );
   },
 ),
+```
+```dart
+static Future updateProduk({required Produk produk}) async {
+    String apiUrl = ApiUrl.updateProduk(int.parse(produk.id!));
+    print(apiUrl);
+    var body = {
+      "kode_produk": produk.kodeProduk,
+      "nama_produk": produk.namaProduk,
+      "harga": produk.hargaProduk.toString()
+    };
+    print("Body : $body");
+    var response = await Api().put(apiUrl, jsonEncode(body));
+    var jsonObj = json.decode(response.body);
+    return jsonObj['status'];
+  }
 ```
 
 Penjelasan:
@@ -408,6 +478,14 @@ void confirmHapus() {AlertDialog alertDialog = AlertDialog(
   ],
 );
 showDialog(builder: (context) => alertDialog, context: context);
+}
+```
+```dart
+static Future<bool> deleteProduk({int? id}) async {
+    String apiUrl = ApiUrl.deleteProduk(id!);
+    var response = await Api().delete(apiUrl);
+    var jsonObj = json.decode(response.body);
+    return (jsonObj as Map<String, dynamic>)['data'];
 }
 ```
 
