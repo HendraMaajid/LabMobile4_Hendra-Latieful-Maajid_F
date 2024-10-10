@@ -495,8 +495,48 @@ Penjelasan:
 - Jika dikonfirmasi, `ProdukBloc.deleteProduk()` dipanggil untuk menghapus produk.
 - Setelah berhasil dihapus, navigasi kembali ke `ProdukPage`.
 
+# E. Penjelasan Logout
+<img src="logout.png" width="300"/>
 
+```dart
+ drawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(title: const Text('Logout'),
+              trailing: const Icon(Icons.logout),
+              onTap: () async {
+                await LogoutBloc.logout().then((value) => {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                          (route) => false)
+                });
+              },
+            )
+          ],
+        ),
+      ),
+```
 
+## Logout Bloc
+
+Bloc ini berfungsi untuk melakukan proses logout
+```dart
+class LogoutBloc {
+  static Future logout() async {
+    await UserInfo().logout();
+  }
+}
+```
+
+## Proses Logout
+
+1. User membuka sidemenu aplikasi.
+2. User menekan tombol "Logout" yang ada di dalam sidemenu.
+3. Saat tombol logout ditekan, `onTap` callback dijalankan.
+4. `LogoutBloc.logout()` dipanggil secara asynchronous.
+5. `LogoutBloc` memanggil `UserInfo().logout()` untuk melakukan proses logout.
+6. `UserInfo().logout()` kemungkinan menghapus token, data sesi, atau melakukan operasi pembersihan lainnya.
+7. Setelah proses logout selesai, aplikasi melakukan navigasi ke `LoginPage`.
 
 
 
