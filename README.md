@@ -66,7 +66,8 @@ Kelas `UserInfo` dalam file ini menyediakan metode untuk mengelola informasi ter
 # A. Penjelasan Proses Registrasi 
 
 ## 1. Proses Submit
-<img src="registrasi1.png.png" width="300"/>
+<img src="registrasi1.png" width="300"/>
+
 Ketika tombol "Registrasi" ditekan, method `_submit()` dipanggil:
 
 ```dart
@@ -165,7 +166,8 @@ class Registrasi {
 ## Penanganan Error
 - Jika terjadi error, dialog peringatan akan ditampilkan.
 - jika tidak maka akan muncul dialog sukses.
-  <img src="registrasi2.png" width="300"/>
+<br>
+<img src="registrasi2.png" width="300"/>
 
 
 
